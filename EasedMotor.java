@@ -30,7 +30,9 @@ public class EasedMotor implements Runnable {
                     this.isTransitioning = true;
                     start = System.currentTimeMillis();
                 }
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
 
             long time = System.currentTimeMillis() - start;
 
@@ -52,6 +54,7 @@ public class EasedMotor implements Runnable {
 
             this.motor.setPower(this.current);
         }
+        System.out.println("stopping");
     }
 
     /** Overrides easing */
@@ -63,7 +66,7 @@ public class EasedMotor implements Runnable {
         this.motor.setPower(x);
     }
 
-    /** @param x Should be in range 0 - 1 */
+    /** @param x Should be in range [0, 1] */
     private static double ease(double x) {
         return (-Math.cos(Math.PI * x) + 1.0) / 2.0;
     }
