@@ -5,9 +5,11 @@ Java. It could be used in combination with an odometry library like Roadrunner.
 
 ## Usage
 
-Run `Easing.java`. Enter numbers in the command line, and it will display the
-change of the power over time. If you enter a number while a transition is in
-progress, it will restart the transition.
+
+
+Follow the instructions on the releases page. Enter numbers in the command line,
+and it will display the change of motor power over time. If you enter a number
+while a transition is in progress, it will restart the transition.
 
 ## Overview
 
