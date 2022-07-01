@@ -2,7 +2,7 @@ public class Motor {
     Motor() {}
     /** @param x Should be in 0 - 1 range */
     public void setPower(double x) {
-        final int n = 64;
+        final int n = 72;
         final String s = "#".repeat(n);
         final String h = "-".repeat(n);
         System.out.printf(
