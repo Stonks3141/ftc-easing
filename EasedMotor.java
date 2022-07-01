@@ -15,7 +15,7 @@ public class EasedMotor implements Runnable {
     }
 
     public void run() {
-        long start = System.currentTimeMillis();
+        long start = 0;
 
         while(true) {
             try {
@@ -34,7 +34,7 @@ public class EasedMotor implements Runnable {
 
             long time = System.currentTimeMillis() - start;
 
-            if (time > this.transitionTime) {
+            if (time > this.transitionTime || !this.isTransitioning) {
                 if (this.isTransitioning) {
                     this.motor.setPower(this.target);
                     this.current = this.target;
@@ -64,6 +64,7 @@ public class EasedMotor implements Runnable {
         this.target = x;
         this.current = x;
         this.prev = x;
+        this.isTransitioning = false;
         this.motor.setPower(x);
     }
 }
