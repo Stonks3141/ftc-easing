@@ -3,6 +3,8 @@
 This repository is a proof-of-concept for non-blocking eased motor controls in
 Java. It could be used in combination with an odometry library like Roadrunner.
 
+This is now an archive repository.
+
 ## Usage
 
 
