@@ -20,9 +20,7 @@ easeInOutSine is used here.
 An easing function that maps a range [0, 1] to [0, 1] can be made to transition
 between two values using this formula:
 
-$
-(x_1 - x_0)\cdot e_{ase}(x) + x_0
-$
+![math](math.svg)
 
 [Demonstration on Desmos](https://www.desmos.com/calculator/5xyatl4dun)
 
