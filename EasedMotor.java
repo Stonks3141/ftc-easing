@@ -17,7 +17,7 @@ public class EasedMotor implements Runnable {
     public void run() {
         long start = 0;
 
-        while(true) {
+        while(!Thread.interrupted()) {
             try {
                 Double x = this.queue.poll(10, TimeUnit.MILLISECONDS);
                 if (x != null) {
