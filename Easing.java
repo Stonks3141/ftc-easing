@@ -16,6 +16,7 @@ public class Easing {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             m.interrupt();
             scanner.close();
+            System.exit(0);
         }));
 
         while(true) {
