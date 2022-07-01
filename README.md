@@ -3,6 +3,9 @@
 This repository is a proof-of-concept for non-blocking eased motor controls in
 Java. It could be used in combination with an odometry library like Roadrunner.
 
+This branch has the user enter percentages in the terminal and transitions to
+those.
+
 ## Overview
 
 A `BlockingQueue` is used to send messages to motors, each of which has its own

@@ -3,7 +3,7 @@ import java.util.concurrent.TimeUnit;
 
 public class EasedMotor implements Runnable {
     private BlockingQueue<Double> queue;
-    private final long transitionTime = 200; // ms
+    private final long TRANSITION_TIME = 2000; // ms
     private boolean isTransitioning = false;
     private double target = 0.0;
     private double prev = 0.0;
@@ -19,7 +19,7 @@ public class EasedMotor implements Runnable {
 
         while(true) {
             try {
-                Double x = this.queue.poll(10, TimeUnit.MILLISECONDS);
+                Double x = this.queue.poll(100, TimeUnit.MILLISECONDS);
                 if (x != null) {
                     // restart transition if already in progress
                     if (this.isTransitioning) {
@@ -34,7 +34,7 @@ public class EasedMotor implements Runnable {
 
             long time = System.currentTimeMillis() - start;
 
-            if (time > this.transitionTime || !this.isTransitioning) {
+            if (time > this.TRANSITION_TIME || !this.isTransitioning) {
                 if (this.isTransitioning) {
                     this.motor.setPower(this.target);
                     this.current = this.target;
@@ -45,7 +45,7 @@ public class EasedMotor implements Runnable {
             }
 
             // map time into 0-1 range
-            double t = (double)time / (double)this.transitionTime;
+            double t = (double)time / (double)this.TRANSITION_TIME;
 
             // renormalize easing function
             this.current = (this.target - this.prev) * ease(t) + this.prev;
