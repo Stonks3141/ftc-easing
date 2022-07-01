@@ -6,12 +6,18 @@ public class Easing {
     public static void main(String[] args) {
         BlockingQueue<Double> q = new LinkedBlockingQueue<Double>();
         EasedMotor motor = new EasedMotor(q);
-        new Thread(motor).start();
+        Thread m = new Thread(motor);
+        m.start();
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter a number between 1 and 100.");
-        
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            m.interrupt();
+            scanner.close();
+        }));
+
         while(true) {
             try {
                 double x = Double.parseDouble(scanner.nextLine());

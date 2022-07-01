@@ -18,6 +18,10 @@ public class EasedMotor implements Runnable {
         long start = 0;
 
         while(true) {
+            if (Thread.interrupted()) {
+                break;
+            }
+            
             try {
                 Double x = this.queue.poll(100, TimeUnit.MILLISECONDS);
                 if (x != null) {
@@ -54,11 +58,6 @@ public class EasedMotor implements Runnable {
         }
     }
 
-    /** @param x Should be in range 0 - 1 */
-    private static double ease(double x) {
-        return (-Math.cos(Math.PI * x) + 1.0) / 2.0;
-    }
-
     /** Overrides easing */
     public void setPower(double x) {
         this.target = x;
@@ -66,5 +65,10 @@ public class EasedMotor implements Runnable {
         this.prev = x;
         this.isTransitioning = false;
         this.motor.setPower(x);
+    }
+
+    /** @param x Should be in range 0 - 1 */
+    private static double ease(double x) {
+        return (-Math.cos(Math.PI * x) + 1.0) / 2.0;
     }
 }
