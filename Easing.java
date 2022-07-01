@@ -9,6 +9,8 @@ public class Easing {
         new Thread(motor).start();
 
         Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a number between 1 and 100.");
         
         while(true) {
             try {
