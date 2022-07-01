@@ -3,7 +3,7 @@ import java.util.concurrent.TimeUnit;
 
 public class EasedMotor implements Runnable {
     private BlockingQueue<Double> queue;
-    private final long transitionTime = 200; // ms
+    private final long TRANSITION_TIME = 2000; // ms
     private boolean isTransitioning = false;
     private double target = 0.0;
     private double prev = 0.0;
@@ -19,7 +19,7 @@ public class EasedMotor implements Runnable {
 
         while(!Thread.interrupted()) {
             try {
-                Double x = this.queue.poll(10, TimeUnit.MILLISECONDS);
+                Double x = this.queue.poll(100, TimeUnit.MILLISECONDS);
                 if (x != null) {
                     // restart transition if already in progress
                     if (this.isTransitioning) {
@@ -30,11 +30,13 @@ public class EasedMotor implements Runnable {
                     this.isTransitioning = true;
                     start = System.currentTimeMillis();
                 }
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
 
             long time = System.currentTimeMillis() - start;
 
-            if (time > this.transitionTime || !this.isTransitioning) {
+            if (time > this.TRANSITION_TIME || !this.isTransitioning) {
                 if (this.isTransitioning) {
                     this.motor.setPower(this.target);
                     this.current = this.target;
@@ -45,18 +47,14 @@ public class EasedMotor implements Runnable {
             }
 
             // map time into 0-1 range
-            double t = (double)time / (double)this.transitionTime;
+            double t = (double)time / (double)this.TRANSITION_TIME;
 
             // renormalize easing function
             this.current = (this.target - this.prev) * ease(t) + this.prev;
 
             this.motor.setPower(this.current);
         }
-    }
-
-    /** @param x Should be in range 0 - 1 */
-    private static double ease(double x) {
-        return (-Math.cos(Math.PI * x) + 1.0) / 2.0;
+        System.out.println("stopping");
     }
 
     /** Overrides easing */
@@ -66,5 +64,10 @@ public class EasedMotor implements Runnable {
         this.prev = x;
         this.isTransitioning = false;
         this.motor.setPower(x);
+    }
+
+    /** @param x Should be in range [0, 1] */
+    private static double ease(double x) {
+        return (-Math.cos(Math.PI * x) + 1.0) / 2.0;
     }
 }

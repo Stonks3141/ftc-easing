@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -5,18 +6,19 @@ public class Easing {
     public static void main(String[] args) {
         BlockingQueue<Double> q = new LinkedBlockingQueue<Double>();
         EasedMotor motor = new EasedMotor(q);
-        Thread m = new Thread(motor);
-        m.start();
-        
-        try {
-            q.put(0.5);            
-            Thread.sleep(150);
-            q.put(1.0);
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new Thread(motor).start();
 
-        m.interrupt();
+        System.out.println("Enter a number between 1 and 100.");
+        Scanner scanner = new Scanner(System.in);
+
+        while(true) {
+            try {
+                double x = Double.parseDouble(scanner.nextLine());
+                // safe, queue is unbounded
+                q.offer(x / 100.0);  
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number");
+            }
+        }
     }
 }
